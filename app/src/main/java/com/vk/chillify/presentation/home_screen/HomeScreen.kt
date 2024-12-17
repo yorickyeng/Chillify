@@ -18,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,10 +30,12 @@ import com.vk.chillify.presentation.templates.SongsSection
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier) {
     Column(
+
         modifier = modifier
             .fillMaxSize()
             .background(Color(0xFF121111))
     ) {
+        println("ХУЙ")
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(15.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
