@@ -27,6 +27,8 @@ import com.vk.chillify.presentation.templates.HorizontalFramesRow
 import com.vk.chillify.presentation.templates.SongCover
 import com.vk.chillify.presentation.templates.SongsSection
 
+
+@Preview
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier) {
     Column(
@@ -35,7 +37,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
             .fillMaxSize()
             .background(Color(0xFF121111))
     ) {
-        println("ХУЙ")
+
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(15.dp),
             horizontalAlignment = Alignment.CenterHorizontally,

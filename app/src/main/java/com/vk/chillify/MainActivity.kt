@@ -10,10 +10,11 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.vk.chillify.presentation.templates.BottomNavigationBar
 import com.vk.chillify.presentation.home_screen.HomeScreen
 import com.vk.chillify.presentation.library_screen.LibraryScreen
 import com.vk.chillify.presentation.search_screen.SearchScreen
+import com.vk.chillify.presentation.songFull_screen.SongFullScreen
+import com.vk.chillify.presentation.templates.BottomNavigationBar
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +34,7 @@ class MainActivity : ComponentActivity() {
                     composable("Home") { HomeScreen() }
                     composable("Search") { SearchScreen() }
                     composable("Library") { LibraryScreen() }
+                    composable("song_fullscreen") { SongFullScreen() }
                 }
             }
         }
