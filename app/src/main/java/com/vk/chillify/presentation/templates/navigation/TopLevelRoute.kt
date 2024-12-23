@@ -11,3 +11,12 @@ val topLevelRoutes = listOf(
 data class TopLevelRoute(
     val label: String, val route: String, val icon: Int
 )
+
+sealed class Routes(val route: String) {
+
+    data object Home : Routes("Home")
+    data object Search : Routes("Search")
+    data object Library : Routes("Library")
+    data object Settings : Routes("Settings")
+    data object Notifications : Routes("Notifications")
+}

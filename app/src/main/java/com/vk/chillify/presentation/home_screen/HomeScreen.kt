@@ -23,6 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.vk.chillify.R
 import com.vk.chillify.presentation.templates.Header
 import com.vk.chillify.presentation.templates.HorizontalFramesRow
@@ -30,7 +31,7 @@ import com.vk.chillify.presentation.templates.SongCover
 import com.vk.chillify.presentation.templates.SongsSection
 
 @Composable
-fun HomeScreen(homeViewModelFactory: HomeViewModelFactory) {
+fun HomeScreen(navController: NavController, homeViewModelFactory: HomeViewModelFactory) {
 
     val viewModel: HomeViewModel = viewModel(
         factory = homeViewModelFactory
@@ -49,7 +50,7 @@ fun HomeScreen(homeViewModelFactory: HomeViewModelFactory) {
                 .weight(1f)
                 .padding(horizontal = 10.dp)
         ) {
-            item { Header() }
+            item { Header(navController) }
             item { SongsSection("First", artist.artistName, artist.artistImageUrl) }
             item { SpotifyWrappedSection(artist.artistName, artist.artistImageUrl) }
             item { SongsSection("Editor's picks", artist.artistName, artist.artistImageUrl) }

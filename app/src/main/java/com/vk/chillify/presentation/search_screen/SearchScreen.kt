@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.vk.chillify.presentation.home_screen.HomeViewModel
 import com.vk.chillify.presentation.home_screen.HomeViewModelFactory
 import com.vk.chillify.presentation.templates.Header
@@ -22,7 +23,7 @@ import com.vk.chillify.presentation.templates.SongCover
 import com.vk.chillify.presentation.templates.SongsSection
 
 @Composable
-fun SearchScreen(homeViewModelFactory: HomeViewModelFactory) {
+fun SearchScreen(navController: NavController, homeViewModelFactory: HomeViewModelFactory) {
 
     val viewModel: HomeViewModel = viewModel(
         factory = homeViewModelFactory
@@ -41,7 +42,7 @@ fun SearchScreen(homeViewModelFactory: HomeViewModelFactory) {
                 .weight(1f)
                 .padding(horizontal = 10.dp)
         ) {
-            item { Header() }
+            item { Header(navController) }
             item { SongsSection("Search)))))", artist.artistName, artist.artistImageUrl) }
             repeat(10) {
                 item { HorizontalFramesRow { SongCover(artist.artistName, artist.artistImageUrl) } }

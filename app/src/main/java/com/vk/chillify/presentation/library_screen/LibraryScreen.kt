@@ -14,10 +14,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.vk.chillify.presentation.templates.Header
 
 @Composable
-fun LibraryScreen() {
+fun LibraryScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -30,7 +31,7 @@ fun LibraryScreen() {
                 .weight(1f)
                 .padding(horizontal = 10.dp)
         ) {
-            item { Header() }
+            item { Header(navController) }
             item {
                 Text(
                     text = "You're fucking library here",
