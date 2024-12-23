@@ -1,13 +1,13 @@
-package com.vk.chillify.data
+package com.vk.chillify.presentation.templates.navigation
 
 import com.vk.chillify.R
-
-data class TopLevelRoute(
-    val label: String, val route: String, val icon: Int
-)
 
 val topLevelRoutes = listOf(
     TopLevelRoute("Home", "Home", R.drawable.home),
     TopLevelRoute("Search", "Search", R.drawable.search),
     TopLevelRoute("Library", "Library", R.drawable.library),
+)
+
+data class TopLevelRoute(
+    val label: String, val route: String, val icon: Int
 )

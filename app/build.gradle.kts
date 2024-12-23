@@ -87,4 +87,6 @@ dependencies {
     ksp(libs.dagger.compiler)
 
     implementation(libs.androidx.material)
+
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar"))))
 }

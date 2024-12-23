@@ -1,4 +1,4 @@
-package com.vk.chillify.presentation.templates
+package com.vk.chillify.presentation.templates.navigation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.size
@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.vk.chillify.data.topLevelRoutes
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {

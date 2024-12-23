@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun SongsSection(text: String) {
+fun SongsSection(text: String, artistName: String, url: String) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -29,7 +29,7 @@ fun SongsSection(text: String) {
             modifier = Modifier.weight(1f)
         )
     }
-    HorizontalFramesRow { SongCover() }
+    HorizontalFramesRow { SongCover(artistName, url) }
 }
 
 @Composable

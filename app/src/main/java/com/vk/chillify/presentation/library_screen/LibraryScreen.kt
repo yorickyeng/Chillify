@@ -17,9 +17,9 @@ import androidx.compose.ui.unit.sp
 import com.vk.chillify.presentation.templates.Header
 
 @Composable
-fun LibraryScreen(modifier: Modifier = Modifier) {
+fun LibraryScreen() {
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFF121111))
     ) {

@@ -13,15 +13,16 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.vk.chillify.R
 import com.vk.chillify.presentation.templates.Header
 import com.vk.chillify.presentation.templates.HorizontalFramesRow
@@ -29,9 +30,15 @@ import com.vk.chillify.presentation.templates.SongCover
 import com.vk.chillify.presentation.templates.SongsSection
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(homeViewModelFactory: HomeViewModelFactory) {
+
+    val viewModel: HomeViewModel = viewModel(
+        factory = homeViewModelFactory
+    )
+    val artist by viewModel.artist.collectAsState()
+
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFF121111))
     ) {
@@ -43,16 +50,16 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                 .padding(horizontal = 10.dp)
         ) {
             item { Header() }
-            item { SongsSection("Recently played") }
-            item { SpotifyWrappedSection() }
-            item { SongsSection("Editor's picks") }
-            item { SongsSection("Fuck Off") }
+            item { SongsSection("First", artist.artistName, artist.artistImageUrl) }
+            item { SpotifyWrappedSection(artist.artistName, artist.artistImageUrl) }
+            item { SongsSection("Editor's picks", artist.artistName, artist.artistImageUrl) }
+            item { SongsSection("Fuck Off", artist.artistName, artist.artistImageUrl) }
         }
     }
 }
 
 @Composable
-fun SpotifyWrappedSection() {
+fun SpotifyWrappedSection(artistName: String, artistImageUrl: String) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -75,11 +82,5 @@ fun SpotifyWrappedSection() {
             )
         }
     }
-    HorizontalFramesRow { SongCover() }
-}
-
-@Preview
-@Composable
-fun Preview() {
-    HomeScreen()
+    HorizontalFramesRow { SongCover(artistName, artistImageUrl) }
 }
