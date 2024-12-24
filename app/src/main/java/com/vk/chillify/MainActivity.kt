@@ -11,13 +11,25 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.vk.chillify.presentation.home_screen.HomeScreen
+import com.vk.chillify.presentation.home_screen.HomeViewModelFactory
 import com.vk.chillify.presentation.library_screen.LibraryScreen
+import com.vk.chillify.presentation.notifications_screen.NotificationsScreen
 import com.vk.chillify.presentation.search_screen.SearchScreen
+import com.vk.chillify.presentation.settings_screen.SettingsScreen
+import com.vk.chillify.presentation.templates.navigation.BottomNavigationBar
+import com.vk.chillify.presentation.templates.navigation.Routes
+import javax.inject.Inject
 import com.vk.chillify.presentation.songFull_screen.SongFullScreen
 import com.vk.chillify.presentation.templates.BottomNavigationBar
 
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var homeViewModelFactory: HomeViewModelFactory
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        (applicationContext as MyApp).appComponent.inject(this)
+
         super.onCreate(savedInstanceState)
 
         setContent {
@@ -31,9 +43,11 @@ class MainActivity : ComponentActivity() {
                         .padding(innerPadding)
                         .fillMaxSize()
                 ) {
-                    composable("Home") { HomeScreen() }
-                    composable("Search") { SearchScreen() }
-                    composable("Library") { LibraryScreen() }
+                    composable(Routes.Home.route) { HomeScreen(navController, homeViewModelFactory) }
+                    composable(Routes.Search.route) { SearchScreen(navController, homeViewModelFactory) }
+                    composable(Routes.Library.route) { LibraryScreen(navController) }
+                    composable(Routes.Settings.route) { SettingsScreen() }
+                    composable(Routes.Notifications.route) { NotificationsScreen() }
                     composable("song_fullscreen") { SongFullScreen() }
                 }
             }
