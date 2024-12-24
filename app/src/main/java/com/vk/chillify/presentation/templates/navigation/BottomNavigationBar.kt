@@ -1,4 +1,4 @@
-package com.vk.chillify.presentation.templates
+package com.vk.chillify.presentation.templates.navigation
 
 import android.media.MediaPlayer
 import androidx.compose.foundation.background
@@ -20,11 +20,11 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.vk.chillify.R
 import com.vk.chillify.presentation.templates.MusicPlayerBar
-import com.vk.chillify.presentation.templates.navigation.topLevelRoutes
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {
     Column {
+
 
         MusicPlayerBar(
             onClick = {
@@ -36,6 +36,7 @@ fun BottomNavigationBar(navController: NavController) {
             },
             mMediaPlayer = MediaPlayer.create(LocalContext.current, R.raw.govnovoz)
         )
+
 
 
         BottomNavigation {

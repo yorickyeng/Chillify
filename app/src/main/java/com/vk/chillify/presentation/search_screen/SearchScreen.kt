@@ -18,8 +18,6 @@ import androidx.navigation.NavController
 import com.vk.chillify.presentation.home_screen.HomeViewModel
 import com.vk.chillify.presentation.home_screen.HomeViewModelFactory
 import com.vk.chillify.presentation.templates.Header
-import com.vk.chillify.presentation.templates.HorizontalFramesRow
-import com.vk.chillify.presentation.templates.SongCover
 import com.vk.chillify.presentation.templates.SongsSection
 
 @Composable
@@ -28,7 +26,7 @@ fun SearchScreen(navController: NavController, homeViewModelFactory: HomeViewMod
     val viewModel: HomeViewModel = viewModel(
         factory = homeViewModelFactory
     )
-    val artist by viewModel.artist.collectAsState()
+    val artists by viewModel.artists.collectAsState()
 
     Column(
         modifier = Modifier
@@ -43,10 +41,7 @@ fun SearchScreen(navController: NavController, homeViewModelFactory: HomeViewMod
                 .padding(horizontal = 10.dp)
         ) {
             item { Header(navController) }
-            item { SongsSection("Search)))))", artist.artistName, artist.artistImageUrl) }
-            repeat(10) {
-                item { HorizontalFramesRow { SongCover(artist.artistName, artist.artistImageUrl) } }
-            }
+            item { SongsSection("Search", artists.map { it.artistName to it.artistImageUrl }) }
         }
     }
 }

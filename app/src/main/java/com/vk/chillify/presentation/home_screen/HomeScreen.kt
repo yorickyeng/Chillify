@@ -27,7 +27,6 @@ import androidx.navigation.NavController
 import com.vk.chillify.R
 import com.vk.chillify.presentation.templates.Header
 import com.vk.chillify.presentation.templates.HorizontalFramesRow
-import com.vk.chillify.presentation.templates.SongCover
 import com.vk.chillify.presentation.templates.SongsSection
 
 @Composable
@@ -36,7 +35,8 @@ fun HomeScreen(navController: NavController, homeViewModelFactory: HomeViewModel
     val viewModel: HomeViewModel = viewModel(
         factory = homeViewModelFactory
     )
-    val artist by viewModel.artist.collectAsState()
+    val artists by viewModel.artists.collectAsState()
+    val popularAlbums by viewModel.popularAlbums.collectAsState()
 
     Column(
         modifier = Modifier
@@ -51,16 +51,25 @@ fun HomeScreen(navController: NavController, homeViewModelFactory: HomeViewModel
                 .padding(horizontal = 10.dp)
         ) {
             item { Header(navController) }
-            item { SongsSection("First", artist.artistName, artist.artistImageUrl) }
-            item { SpotifyWrappedSection(artist.artistName, artist.artistImageUrl) }
-            item { SongsSection("Editor's picks", artist.artistName, artist.artistImageUrl) }
-            item { SongsSection("Fuck Off", artist.artistName, artist.artistImageUrl) }
+            item {
+                SongsSection(
+                    title = "Popular Albums",
+                    albumsOrArtists = popularAlbums
+                )
+            }
+            item { SpotifyWrappedSection(artists = artists.map { it.artistName to it.artistImageUrl }) }
+            item {
+                SongsSection(
+                    title = "Editor's picks",
+                    albumsOrArtists = artists.map { it.artistName to it.artistImageUrl }
+                )
+            }
         }
     }
 }
 
 @Composable
-fun SpotifyWrappedSection(artistName: String, artistImageUrl: String) {
+fun SpotifyWrappedSection(artists: List<Pair<String, String>>) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -83,5 +92,5 @@ fun SpotifyWrappedSection(artistName: String, artistImageUrl: String) {
             )
         }
     }
-    HorizontalFramesRow { SongCover(artistName, artistImageUrl) }
+    HorizontalFramesRow(artists)
 }
