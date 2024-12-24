@@ -16,6 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.vk.chillify.domain.entity.Album
+import com.vk.chillify.domain.entity.Artist
 
 @Composable
 fun SongsSection(title: String, albumsOrArtists: List<Any>) {
@@ -51,16 +52,24 @@ fun HorizontalFramesRow(albumsOrArtists: List<Any>) {
     ) {
         items(albumsOrArtists) { albumOrArtist ->
             when (albumOrArtist) {
-                is Pair<*, *> -> {
-                    SongCover(artistName = albumOrArtist.first as String, url = albumOrArtist.second as String)
+                is Artist -> {
+                    SongCover(
+                        artistName = albumOrArtist.artistName,
+                        artistImageUrl = albumOrArtist.artistImageUrl,
+                        artistUrl = albumOrArtist.artistUrl,
+                        albumName = "",
+                    )
                 }
+
                 is Album -> {
                     SongCover(
                         artistName = albumOrArtist.artist.artistName,
-                        url = albumOrArtist.albumImageUrl,
-                        albumName = albumOrArtist.albumName
+                        artistImageUrl = albumOrArtist.albumImageUrl,
+                        artistUrl = albumOrArtist.artist.artistUrl,
+                        albumName = albumOrArtist.albumName,
                     )
                 }
+
                 else -> {
                     println("why")
                 }

@@ -29,15 +29,17 @@ class SpotifyRepositoryImpl @Inject constructor(
 
     override suspend fun fetchArtists(authToken: String): List<Artist> {
         val randomArtistIds = artistIds.shuffled().take(artistIds.size).joinToString(",")
+        println(authToken)
         return try {
             val response = spotifyApiService.getArtist("Bearer $authToken", randomArtistIds)
+            println(response.artists[0].externalUrls.spotify)
             response.artists.map { artistResponse ->
                 Artist(
                     artistName = artistResponse.name,
-                    artistImageUrl = artistResponse.images?.get(0)?.url.orEmpty()
+                    artistImageUrl = artistResponse.images?.get(0)?.url.orEmpty(),
+                    artistUrl = artistResponse.externalUrls.spotify
                 )
             }
-
         } catch (e: Exception) {
             e.printStackTrace()
             emptyList()
@@ -53,7 +55,8 @@ class SpotifyRepositoryImpl @Inject constructor(
                 albumItem.artists.map {
                     Artist(
                         artistName = albumItem.albumName,
-                        artistImageUrl = albumItem.images.firstOrNull()?.url.orEmpty() // Извлекаем обложку альбома
+                        artistImageUrl = albumItem.images.firstOrNull()?.url.orEmpty(),
+                        artistUrl = albumItem.albumName, // заглушка
                     )
                 }
             }
@@ -73,9 +76,10 @@ class SpotifyRepositoryImpl @Inject constructor(
                     artist = albumItem.artists.firstOrNull()?.let { artistResponse ->
                         Artist(
                             artistName = artistResponse.name, // Имя артиста
-                            artistImageUrl = artistResponse.images?.firstOrNull()?.url.orEmpty() // Изображение артиста (если доступно)
+                            artistImageUrl = artistResponse.images?.firstOrNull()?.url.orEmpty(),
+                            artistUrl = artistResponse.externalUrls.spotify
                         )
-                    } ?: Artist(artistName = "Unknown Artist", artistImageUrl = "")
+                    } ?: Artist(artistName = "Unknown Artist", artistImageUrl = "", artistUrl = "")
                 )
             }
         } catch (e: Exception) {

@@ -58,11 +58,11 @@ fun HomeScreen(navController: NavController, homeViewModelFactory: HomeViewModel
                     albumsOrArtists = popularAlbums
                 )
             }
-            item { SpotifyWrappedSection(artists = artists.map { it.artistName to it.artistImageUrl }) }
+            item { SpotifyWrappedSection(albumsOrArtists = artists)}
             item {
                 SongsSection(
                     title = "Editor's picks",
-                    albumsOrArtists = artists.map { it.artistName to it.artistImageUrl }
+                    albumsOrArtists = artists
                 )
             }
         }
@@ -70,7 +70,7 @@ fun HomeScreen(navController: NavController, homeViewModelFactory: HomeViewModel
 }
 
 @Composable
-fun SpotifyWrappedSection(artists: List<Pair<String, String>>) {
+fun SpotifyWrappedSection(albumsOrArtists: List<Any>) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -93,5 +93,5 @@ fun SpotifyWrappedSection(artists: List<Pair<String, String>>) {
             )
         }
     }
-    HorizontalFramesRow(artists)
+    HorizontalFramesRow(albumsOrArtists)
 }

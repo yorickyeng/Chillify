@@ -41,7 +41,12 @@ fun SearchScreen(navController: NavController, homeViewModelFactory: HomeViewMod
                 .padding(horizontal = 10.dp)
         ) {
             item { Header(navController) }
-            item { SongsSection("Search", artists.map { it.artistName to it.artistImageUrl }) }
+            item {
+                SongsSection(
+                    title = "There's no search but maybe wanted these?",
+                    albumsOrArtists = artists
+                )
+            }
         }
     }
 }
