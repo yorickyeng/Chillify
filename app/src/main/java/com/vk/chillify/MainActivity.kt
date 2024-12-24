@@ -16,11 +16,10 @@ import com.vk.chillify.presentation.library_screen.LibraryScreen
 import com.vk.chillify.presentation.notifications_screen.NotificationsScreen
 import com.vk.chillify.presentation.search_screen.SearchScreen
 import com.vk.chillify.presentation.settings_screen.SettingsScreen
-import com.vk.chillify.presentation.templates.navigation.BottomNavigationBar
-import com.vk.chillify.presentation.templates.navigation.Routes
-import javax.inject.Inject
 import com.vk.chillify.presentation.songFull_screen.SongFullScreen
 import com.vk.chillify.presentation.templates.BottomNavigationBar
+import com.vk.chillify.presentation.templates.navigation.Routes
+import javax.inject.Inject
 
 class MainActivity : ComponentActivity() {
 
@@ -45,7 +44,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     composable(Routes.Home.route) { HomeScreen(navController, homeViewModelFactory) }
                     composable(Routes.Search.route) { SearchScreen(navController, homeViewModelFactory) }
-                    composable(Routes.Library.route) { LibraryScreen(navController) }
+                    composable(Routes.Library.route) { LibraryScreen(navController = navController) }
                     composable(Routes.Settings.route) { SettingsScreen() }
                     composable(Routes.Notifications.route) { NotificationsScreen() }
                     composable("song_fullscreen") { SongFullScreen() }

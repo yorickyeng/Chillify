@@ -19,7 +19,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.vk.chillify.R
-import com.vk.chillify.data.topLevelRoutes
+import com.vk.chillify.presentation.templates.navigation.topLevelRoutes
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {
