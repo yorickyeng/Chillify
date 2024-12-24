@@ -21,22 +21,24 @@ import com.vk.chillify.presentation.templates.MusicPlayerBar
 @Composable
 fun BottomNavigationBar(navController: NavController) {
     Column {
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentDestination = navBackStackEntry?.destination
 
-        MusicPlayerBar(
-            onClick = {
-                navController.navigate(Routes.SongFullScreen.route) {
-                    popUpTo(navController.graph.findStartDestination().id) {
-                        saveState = true
+        if (currentDestination?.route != Routes.SongFullScreen.route) {
+            MusicPlayerBar(
+                onClick = {
+                    navController.navigate(Routes.SongFullScreen.route) {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
                     }
                 }
-            },
-
-        )
+            )
+        }
 
 
         BottomNavigation {
-            val navBackStackEntry by navController.currentBackStackEntryAsState()
-            val currentDestination = navBackStackEntry?.destination
+
 
             topLevelRoutes.forEach { topLevelRoute ->
                 BottomNavigationItem(
