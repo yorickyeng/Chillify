@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -132,14 +131,6 @@ fun Track(){
                 )
             }
 
-            // Play/Pause Button
-            IconButton(onClick = { }) {
-                Icon(
-                    imageVector = Icons.Default.PlayArrow,
-                    contentDescription =  "Play",
-                    tint = Color.White
-                )
-            }
         }
     }
 

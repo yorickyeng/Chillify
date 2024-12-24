@@ -13,13 +13,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.vk.chillify.presentation.templates.MusicPlayerBar
+import com.vk.chillify.presentation.viewModels.MusicViewModel
 
 @Composable
-fun BottomNavigationBar(navController: NavController) {
+fun BottomNavigationBar(navController: NavController, musicViewModel: MusicViewModel = viewModel()) {
     Column {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
@@ -32,7 +34,8 @@ fun BottomNavigationBar(navController: NavController) {
                             saveState = true
                         }
                     }
-                }
+                },
+                viewModel = musicViewModel
             )
         }
 
