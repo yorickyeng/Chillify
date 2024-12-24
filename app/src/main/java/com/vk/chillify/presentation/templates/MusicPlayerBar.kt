@@ -1,5 +1,6 @@
 package com.vk.chillify.presentation.templates
 
+import android.media.MediaPlayer
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,6 +23,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,11 +40,11 @@ fun MusicPlayerBar(
     songTitle: String = "Song Title",
     artist: String = "Artist Name",
     favourite: Boolean = false,
-    isPlaying: Boolean = false,
-    onFavoriteClick: () -> Unit = {},  //  передать лямбды для взаимодействия, по умол. пустые
-    onPlayPauseClick: () -> Unit = {},
     onClick: () -> Unit = {},
+    mMediaPlayer: MediaPlayer
+
 ) {
+    val isPlaying = remember { mutableStateOf(false) }
 
     Box(
         modifier
@@ -82,7 +86,7 @@ fun MusicPlayerBar(
                 )
             }
 
-            IconButton(onClick = onFavoriteClick) {
+            IconButton(onClick = { onFavoriteClick() }) {
                 Icon(
                     imageVector = if(!favourite) Icons.Default.FavoriteBorder else Icons.Default.Favorite,
                     contentDescription = "favourite",
@@ -91,15 +95,26 @@ fun MusicPlayerBar(
             }
 
             // Play/Pause Button
-            IconButton(onClick = onPlayPauseClick) {
+            IconButton(onClick = { player(isPlaying, mMediaPlayer) }) {
                 Icon(
-                    imageVector = if (isPlaying) Icons.Filled.Close else Icons.Default.PlayArrow,
-                    contentDescription = if (isPlaying) "Pause" else "Play",
+                    imageVector = if (isPlaying.value) Icons.Filled.Close else Icons.Default.PlayArrow,
+                    contentDescription = if (isPlaying.value) "Pause" else "Play",
                     tint = Color.White
                 )
             }
         }
     }
+}
 
+fun player(isPlaying: MutableState<Boolean>, mMediaPlayer: MediaPlayer){
+    isPlaying.value = !isPlaying.value
+    if (isPlaying.value){
+        mMediaPlayer.start()
+    }
+    else{
+        mMediaPlayer.pause()
+    }
+}
 
+fun onFavoriteClick(){
 }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -15,10 +16,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.vk.chillify.R
+import com.vk.chillify.presentation.templates.navigation.Routes
 
 @Composable
-fun Header() {
+fun Header(navController: NavController) {
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -37,18 +41,35 @@ fun Header() {
             horizontalArrangement = Arrangement.spacedBy(20.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                painter = painterResource(R.drawable.notifications),
-                contentDescription = "Notifications",
-                tint = Color.White,
-                modifier = Modifier.size(25.dp)
-            )
-            Icon(
-                painter = painterResource(R.drawable.settings),
-                contentDescription = "Settings",
-                tint = Color.White,
-                modifier = Modifier.size(25.dp)
-            )
+            IconButton(
+                onClick = {
+                    navController.navigate(Routes.Notifications.route) {
+                        launchSingleTop = true
+                    }
+                }
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.notifications),
+                    contentDescription = "Notifications",
+                    tint = Color.White,
+                    modifier = Modifier.size(25.dp)
+                )
+            }
+
+            IconButton(
+                onClick = {
+                    navController.navigate(Routes.Settings.route) {
+                        launchSingleTop = true
+                    }
+                }
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.settings),
+                    contentDescription = "Settings",
+                    tint = Color.White,
+                    modifier = Modifier.size(25.dp)
+                )
+            }
         }
     }
 }
