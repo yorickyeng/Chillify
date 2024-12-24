@@ -1,6 +1,5 @@
-package com.vk.chillify.presentation.templates
+package com.vk.chillify.presentation.templates.navigation
 
-import android.media.MediaPlayer
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
@@ -12,35 +11,37 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.vk.chillify.R
 import com.vk.chillify.presentation.templates.MusicPlayerBar
-import com.vk.chillify.presentation.templates.navigation.topLevelRoutes
+import com.vk.chillify.presentation.viewModels.MusicViewModel
 
 @Composable
-fun BottomNavigationBar(navController: NavController) {
+fun BottomNavigationBar(navController: NavController, musicViewModel: MusicViewModel = viewModel()) {
     Column {
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentDestination = navBackStackEntry?.destination
 
-        MusicPlayerBar(
-            onClick = {
-                navController.navigate(Routes.SongFullScreen.route) {
-                    popUpTo(navController.graph.findStartDestination().id) {
-                        saveState = true
+        if (currentDestination?.route != Routes.SongFullScreen.route) {
+            MusicPlayerBar(
+                onClick = {
+                    navController.navigate(Routes.SongFullScreen.route) {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
                     }
-                }
-            },
-            mMediaPlayer = MediaPlayer.create(LocalContext.current, R.raw.govnovoz)
-        )
+                },
+                viewModel = musicViewModel
+            )
+        }
 
 
         BottomNavigation {
-            val navBackStackEntry by navController.currentBackStackEntryAsState()
-            val currentDestination = navBackStackEntry?.destination
+
 
             topLevelRoutes.forEach { topLevelRoute ->
                 BottomNavigationItem(

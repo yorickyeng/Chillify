@@ -36,6 +36,7 @@ fun HomeScreen(navController: NavController, homeViewModelFactory: HomeViewModel
     val viewModel: HomeViewModel = viewModel(
         factory = homeViewModelFactory
     )
+
     val artist by viewModel.artist.collectAsState()
 
     Column(

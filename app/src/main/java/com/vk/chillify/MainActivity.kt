@@ -19,6 +19,7 @@ import com.vk.chillify.presentation.settings_screen.SettingsScreen
 import com.vk.chillify.presentation.songFull_screen.SongFullScreen
 import com.vk.chillify.presentation.templates.navigation.BottomNavigationBar
 import com.vk.chillify.presentation.templates.navigation.Routes
+import com.vk.chillify.presentation.viewModels.MusicViewModel
 import javax.inject.Inject
 
 class MainActivity : ComponentActivity() {
@@ -30,11 +31,12 @@ class MainActivity : ComponentActivity() {
         (applicationContext as MyApp).appComponent.inject(this)
 
         super.onCreate(savedInstanceState)
+        val  musicViewModel = MusicViewModel(application = application)
 
         setContent {
             val navController = rememberNavController()
 
-            Scaffold(bottomBar = { BottomNavigationBar(navController) }) { innerPadding ->
+            Scaffold(bottomBar = { BottomNavigationBar(navController, musicViewModel) }) { innerPadding ->
                 NavHost(
                     navController,
                     startDestination = "Home",
@@ -57,7 +59,7 @@ class MainActivity : ComponentActivity() {
                     composable(Routes.Library.route) { LibraryScreen(navController = navController) }
                     composable(Routes.Settings.route) { SettingsScreen() }
                     composable(Routes.Notifications.route) { NotificationsScreen() }
-                    composable(Routes.SongFullScreen.route) { SongFullScreen() }
+                    composable(Routes.SongFullScreen.route) { SongFullScreen(musicViewModel) }
                 }
             }
         }

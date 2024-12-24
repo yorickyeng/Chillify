@@ -12,31 +12,34 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.vk.chillify.R
+import com.vk.chillify.presentation.viewModels.MusicViewModel
 
 //@Preview(showSystemUi = true)
 @Composable
-fun SongFullScreen() {
+fun SongFullScreen(viewModel: MusicViewModel = viewModel()) {
     Column(modifier = Modifier
         .fillMaxSize()
         .background(Color(0xFF121111)))
     {
+        val isPlaying by viewModel.isPlaying.collectAsState()
+
         Image(
             painter = painterResource(R.drawable.chill_headphones_guy),
             contentDescription = null,
@@ -59,7 +62,16 @@ fun SongFullScreen() {
             IconButton(onClick = { }) {
 
                 Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    painter = painterResource(R.drawable.previous),
+                    contentDescription = "Play",
+                    tint = Color.White,
+                    modifier = Modifier.size(70.dp)
+                )
+            }
+            IconButton(onClick = { viewModel.playPause() }) {
+
+                Icon(
+                    painter = if(!isPlaying) painterResource(R.drawable.play) else painterResource(R.drawable.pause),
                     contentDescription = "Play",
                     tint = Color.White,
                     modifier = Modifier.size(70.dp)
@@ -68,16 +80,7 @@ fun SongFullScreen() {
             IconButton(onClick = { }) {
 
                 Icon(
-                    imageVector = Icons.Default.PlayArrow,
-                    contentDescription = "Play",
-                    tint = Color.White,
-                    modifier = Modifier.size(70.dp)
-                )
-            }
-            IconButton(onClick = { }) {
-
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                    painter = painterResource(R.drawable.next),
                     contentDescription = "Play",
                     tint = Color.White,
                     modifier = Modifier.size(70.dp)
@@ -128,14 +131,6 @@ fun Track(){
                 )
             }
 
-            // Play/Pause Button
-            IconButton(onClick = { }) {
-                Icon(
-                    imageVector = Icons.Default.PlayArrow,
-                    contentDescription =  "Play",
-                    tint = Color.White
-                )
-            }
         }
     }
 
