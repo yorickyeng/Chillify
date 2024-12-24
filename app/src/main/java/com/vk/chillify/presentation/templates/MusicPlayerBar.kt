@@ -1,6 +1,5 @@
 package com.vk.chillify.presentation.templates
 
-import android.media.MediaPlayer
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -14,40 +13,38 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.vk.chillify.R
+import com.vk.chillify.presentation.viewModels.MusicViewModel
 
 @Composable
 fun MusicPlayerBar(
-    modifier: Modifier = Modifier,
     songTitle: String = "Song Title",
     artist: String = "Artist Name",
     favourite: Boolean = false,
     onClick: () -> Unit = {},
-    mMediaPlayer: MediaPlayer
-
+    viewModel: MusicViewModel = viewModel()
 ) {
-    val isPlaying = remember { mutableStateOf(false) }
+
+    val isPlaying by viewModel.isPlaying.collectAsState()
 
     Box(
-        modifier
+        modifier = Modifier
             .wrapContentHeight()
             .fillMaxWidth()
             .background(Color.DarkGray)
@@ -86,7 +83,8 @@ fun MusicPlayerBar(
                 )
             }
 
-            IconButton(onClick = { onFavoriteClick() }) {
+            // Favourite Button
+            IconButton(onClick = { }) {
                 Icon(
                     imageVector = if(!favourite) Icons.Default.FavoriteBorder else Icons.Default.Favorite,
                     contentDescription = "favourite",
@@ -95,10 +93,10 @@ fun MusicPlayerBar(
             }
 
             // Play/Pause Button
-            IconButton(onClick = { player(isPlaying, mMediaPlayer) }) {
+            IconButton(onClick = { viewModel.playPause() }) {
                 Icon(
-                    imageVector = if (isPlaying.value) Icons.Filled.Close else Icons.Default.PlayArrow,
-                    contentDescription = if (isPlaying.value) "Pause" else "Play",
+                    painter = if (!isPlaying) painterResource(R.drawable.play) else painterResource(R.drawable.pause),
+                    contentDescription = if (isPlaying) "Pause" else "Play",
                     tint = Color.White
                 )
             }
@@ -106,15 +104,3 @@ fun MusicPlayerBar(
     }
 }
 
-fun player(isPlaying: MutableState<Boolean>, mMediaPlayer: MediaPlayer){
-    isPlaying.value = !isPlaying.value
-    if (isPlaying.value){
-        mMediaPlayer.start()
-    }
-    else{
-        mMediaPlayer.pause()
-    }
-}
-
-fun onFavoriteClick(){
-}

@@ -4,9 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vk.chillify.domain.entity.Album
 import com.vk.chillify.domain.entity.Artist
+
 import com.vk.chillify.domain.usecase.FetchAuthTokenUseCase
 import com.vk.chillify.domain.usecase.FetchArtistsUseCase
 import com.vk.chillify.domain.usecase.FetchPopularAlbumsUseCase
+
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -55,4 +57,9 @@ class HomeViewModel @Inject constructor(
             }
         }
     }
+
+    fun playTrack(){
+
+    }
+
 }
