@@ -1,8 +1,9 @@
 package com.vk.chillify.di.module
 
 import com.vk.chillify.domain.repository.SpotifyRepository
-import com.vk.chillify.domain.usecase.FetchArtistUseCase
+import com.vk.chillify.domain.usecase.FetchArtistsUseCase
 import com.vk.chillify.domain.usecase.FetchAuthTokenUseCase
+import com.vk.chillify.domain.usecase.FetchPopularAlbumsUseCase
 import dagger.Module
 import dagger.Provides
 
@@ -10,8 +11,13 @@ import dagger.Provides
 class DomainModule {
 
     @Provides
-    fun fetchArtistUseCase(repository: SpotifyRepository): FetchArtistUseCase {
-        return FetchArtistUseCase(repository)
+    fun fetchArtistsUseCase(repository: SpotifyRepository): FetchArtistsUseCase {
+        return FetchArtistsUseCase(repository)
+    }
+
+    @Provides
+    fun fetchPopularArtistsUseCase(repository: SpotifyRepository): FetchPopularAlbumsUseCase {
+        return FetchPopularAlbumsUseCase(repository)
     }
 
     @Provides

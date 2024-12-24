@@ -2,6 +2,7 @@ package com.vk.chillify.data.repository
 
 import com.vk.chillify.data.datasource.remote.AccountsApiService
 import com.vk.chillify.data.datasource.remote.SpotifyApiService
+import com.vk.chillify.domain.entity.Album
 import com.vk.chillify.domain.entity.Artist
 import com.vk.chillify.domain.repository.SpotifyRepository
 import javax.inject.Inject
@@ -26,18 +27,60 @@ class SpotifyRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun fetchArtist(authToken: String): Artist {
-
-        val randomArtistId = artistIds.random()
-
+    override suspend fun fetchArtists(authToken: String): List<Artist> {
+        val randomArtistIds = artistIds.shuffled().take(artistIds.size).joinToString(",")
         return try {
-            val response = spotifyApiService.getArtist("Bearer $authToken", randomArtistId)
-            Artist(
-                artistName = response.name, artistImageUrl = response.images?.get(0)?.url.orEmpty()
-            )
+            val response = spotifyApiService.getArtist("Bearer $authToken", randomArtistIds)
+            response.artists.map { artistResponse ->
+                Artist(
+                    artistName = artistResponse.name,
+                    artistImageUrl = artistResponse.images?.get(0)?.url.orEmpty()
+                )
+            }
+
         } catch (e: Exception) {
             e.printStackTrace()
-            Artist(artistName = "Unknown Artist", artistImageUrl = "")
+            emptyList()
+        }
+    }
+
+    override suspend fun fetchPopularArtists(authToken: String): List<Artist> {
+        return try {
+            val response = spotifyApiService.getPopularArtists("Bearer $authToken")
+            println(authToken)
+            println(response)
+            response.albums.items.flatMap { albumItem ->
+                albumItem.artists.map {
+                    Artist(
+                        artistName = albumItem.albumName,
+                        artistImageUrl = albumItem.images.firstOrNull()?.url.orEmpty() // Извлекаем обложку альбома
+                    )
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emptyList()
+        }
+    }
+
+    override suspend fun fetchPopularAlbum(authToken: String): List<Album> {
+        return try {
+            val response = spotifyApiService.getPopularArtists("Bearer $authToken")
+            response.albums.items.map { albumItem ->
+                Album(
+                    albumName = albumItem.albumName, // Название альбома
+                    albumImageUrl = albumItem.images.firstOrNull()?.url.orEmpty(), // Обложка альбома
+                    artist = albumItem.artists.firstOrNull()?.let { artistResponse ->
+                        Artist(
+                            artistName = artistResponse.name, // Имя артиста
+                            artistImageUrl = artistResponse.images?.firstOrNull()?.url.orEmpty() // Изображение артиста (если доступно)
+                        )
+                    } ?: Artist(artistName = "Unknown Artist", artistImageUrl = "")
+                )
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emptyList()
         }
     }
 }
@@ -49,4 +92,8 @@ val artistIds = listOf(
     "2CIMQHirSU0MQqyYHq0eOx",
     "57dN52uHvrHOxijzpIgu3E",
     "1vCWHaC5f2uS3yhpwWbIA6",
+    "2GUwb2rxMKePzxDi94EEoZ",
+    "3IpQziA6YwD53PQ5xbwgLF",
+    "3l0CmX0FuQjFxr8SK7Vqag",
+    "3yY2gUcIsjMr8hjo51PoJ8",
 )

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,9 +15,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.vk.chillify.domain.entity.Album
 
 @Composable
-fun SongsSection(text: String, artistName: String, url: String) {
+fun SongsSection(title: String, albumsOrArtists: List<Any>) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -28,25 +30,41 @@ fun SongsSection(text: String, artistName: String, url: String) {
                 .padding(horizontal = 6.dp)
         ) {
             Text(
-                text = text,
+                text = title,
                 color = Color.White,
                 fontSize = 19.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.weight(1f)
             )
         }
-        HorizontalFramesRow { SongCover(artistName, url) }
+        HorizontalFramesRow(albumsOrArtists = albumsOrArtists)
     }
 }
 
 @Composable
-fun HorizontalFramesRow(content: @Composable () -> Unit) {
+fun HorizontalFramesRow(albumsOrArtists: List<Any>) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(13.dp),
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 6.dp, vertical = 7.dp)
     ) {
-        items(20) { content() }
+        items(albumsOrArtists) { albumOrArtist ->
+            when (albumOrArtist) {
+                is Pair<*, *> -> {
+                    SongCover(artistName = albumOrArtist.first as String, url = albumOrArtist.second as String)
+                }
+                is Album -> {
+                    SongCover(
+                        artistName = albumOrArtist.artist.artistName,
+                        url = albumOrArtist.albumImageUrl,
+                        albumName = albumOrArtist.albumName
+                    )
+                }
+                else -> {
+                    println("why")
+                }
+            }
+        }
     }
 }

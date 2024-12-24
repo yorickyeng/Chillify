@@ -18,13 +18,16 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.vk.chillify.presentation.templates.MusicPlayerBar
+
 import com.vk.chillify.presentation.viewModels.MusicViewModel
+
 
 @Composable
 fun BottomNavigationBar(navController: NavController, musicViewModel: MusicViewModel = viewModel()) {
     Column {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
+
 
         if (currentDestination?.route != Routes.SongFullScreen.route) {
             MusicPlayerBar(
@@ -33,11 +36,13 @@ fun BottomNavigationBar(navController: NavController, musicViewModel: MusicViewM
                         popUpTo(navController.graph.findStartDestination().id) {
                             saveState = true
                         }
+
                     }
                 },
                 viewModel = musicViewModel
             )
         }
+
 
 
         BottomNavigation {
