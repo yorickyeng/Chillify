@@ -28,10 +28,10 @@ class SpotifyRepositoryImpl @Inject constructor(
     }
 
     override suspend fun fetchArtists(authToken: String): List<Artist> {
-        val randomArtistIds = artistIds.shuffled().take(artistIds.size).joinToString(",")
+        val randomArtistIds = artistIds.take(artistIds.size).joinToString(",")
         println(authToken)
         return try {
-            val response = spotifyApiService.getArtist("Bearer $authToken", randomArtistIds)
+            val response = spotifyApiService.getArtists("Bearer $authToken", randomArtistIds)
             println(response.artists[0].externalUrls.spotify)
             response.artists.map { artistResponse ->
                 Artist(
@@ -46,9 +46,10 @@ class SpotifyRepositoryImpl @Inject constructor(
         }
     }
 
+    // not using now
     override suspend fun fetchPopularArtists(authToken: String): List<Artist> {
         return try {
-            val response = spotifyApiService.getPopularArtists("Bearer $authToken")
+            val response = spotifyApiService.getPopularAlbums("Bearer $authToken")
             println(authToken)
             println(response)
             response.albums.items.flatMap { albumItem ->
@@ -68,7 +69,7 @@ class SpotifyRepositoryImpl @Inject constructor(
 
     override suspend fun fetchPopularAlbum(authToken: String): List<Album> {
         return try {
-            val response = spotifyApiService.getPopularArtists("Bearer $authToken")
+            val response = spotifyApiService.getPopularAlbums("Bearer $authToken")
             response.albums.items.map { albumItem ->
                 Album(
                     albumName = albumItem.albumName, // Название альбома

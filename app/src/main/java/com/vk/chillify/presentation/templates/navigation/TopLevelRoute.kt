@@ -20,4 +20,5 @@ sealed class Routes(val route: String) {
     data object Settings : Routes("Settings")
     data object Notifications : Routes("Notifications")
     data object SongFullScreen : Routes("SongFullScreen")
+    data object Information : Routes("InformationScreen")
 }

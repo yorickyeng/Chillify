@@ -1,7 +1,5 @@
 package com.vk.chillify.presentation.templates
 
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -18,19 +16,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.skydoves.landscapist.glide.GlideImage
 import com.vk.chillify.R
+import com.vk.chillify.presentation.templates.navigation.Routes
 
 @Composable
-fun SongCover(artistName: String, artistImageUrl: String,  artistUrl: String, albumName: String = "") {
-    val context = LocalContext.current
+fun SongCover(
+    navController: NavController,
+    artistName: String,
+    artistImageUrl: String,
+    albumName: String = ""
+) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        GlideImage(
-            imageModel = { artistImageUrl },
+        GlideImage(imageModel = { artistImageUrl },
             loading = {
                 Box(
                     modifier = Modifier
@@ -46,8 +48,7 @@ fun SongCover(artistName: String, artistImageUrl: String,  artistUrl: String, al
                 .clip(RoundedCornerShape(4.dp))
                 .padding(bottom = 5.dp)
                 .clickable(onClick = {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(artistUrl))
-                    context.startActivity(intent)
+                    navController.navigate(Routes.Information.route)
                 }),
             failure = {
                 Box {

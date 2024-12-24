@@ -43,6 +43,7 @@ fun SearchScreen(navController: NavController, homeViewModelFactory: HomeViewMod
             item { Header(navController) }
             item {
                 SongsSection(
+                    navController = navController,
                     title = "There's no search but maybe wanted these?",
                     albumsOrArtists = artists
                 )
