@@ -3,8 +3,8 @@ package com.vk.chillify.presentation.home_screen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vk.chillify.domain.entity.Artist
-import com.vk.chillify.domain.usecase.FetchAuthTokenUseCase
 import com.vk.chillify.domain.usecase.FetchArtistUseCase
+import com.vk.chillify.domain.usecase.FetchAuthTokenUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -38,4 +38,9 @@ class HomeViewModel @Inject constructor(
             }
         }
     }
+
+    fun playTrack(){
+
+    }
+
 }
