@@ -24,6 +24,7 @@ import androidx.navigation.NavController
 import com.vk.chillify.R
 import com.vk.chillify.presentation.templates.Header
 
+//@Preview(showSystemUi = true)
 @Composable
 fun LibraryScreen(modifier: Modifier = Modifier, navController: NavController) {
     Column(
@@ -45,7 +46,7 @@ fun LibraryScreen(modifier: Modifier = Modifier, navController: NavController) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(6.dp)
-                    ){
+                    ) {
                         Image(
                             painter = painterResource(R.drawable.chill_headphones_guy),
                             contentDescription = null,
