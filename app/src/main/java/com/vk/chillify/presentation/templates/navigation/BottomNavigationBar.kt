@@ -19,6 +19,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.vk.chillify.R
+import com.vk.chillify.presentation.templates.MusicPlayerBar
 import com.vk.chillify.presentation.templates.navigation.topLevelRoutes
 
 @Composable
@@ -27,7 +28,7 @@ fun BottomNavigationBar(navController: NavController) {
 
         MusicPlayerBar(
             onClick = {
-                navController.navigate("song_fullscreen") {
+                navController.navigate(Routes.SongFullScreen.route) {
                     popUpTo(navController.graph.findStartDestination().id) {
                         saveState = true
                     }

@@ -12,8 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
@@ -120,9 +120,8 @@ fun Track(){
                     style = MaterialTheme.typography.bodySmall
                 )
             }
-
-            androidx.compose.material3.IconButton({ }) {
-                androidx.compose.material3.Icon(
+            IconButton({ }) {
+                Icon(
                     imageVector = Icons.Default.FavoriteBorder,
                     contentDescription = "favourite",
                     tint = Color.White
@@ -130,8 +129,8 @@ fun Track(){
             }
 
             // Play/Pause Button
-            androidx.compose.material3.IconButton(onClick = { }) {
-                androidx.compose.material3.Icon(
+            IconButton(onClick = { }) {
+                Icon(
                     imageVector = Icons.Default.PlayArrow,
                     contentDescription =  "Play",
                     tint = Color.White

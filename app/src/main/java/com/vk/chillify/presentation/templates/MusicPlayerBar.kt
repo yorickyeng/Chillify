@@ -117,5 +117,4 @@ fun player(isPlaying: MutableState<Boolean>, mMediaPlayer: MediaPlayer){
 }
 
 fun onFavoriteClick(){
-
 }
