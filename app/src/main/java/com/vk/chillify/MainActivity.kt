@@ -42,9 +42,19 @@ class MainActivity : ComponentActivity() {
                         .padding(innerPadding)
                         .fillMaxSize()
                 ) {
-                    composable(Routes.Home.route) { HomeScreen(navController, homeViewModelFactory) }
-                    composable(Routes.Search.route) { SearchScreen(navController, homeViewModelFactory) }
-                    composable(Routes.Library.route) { LibraryScreen(navController) }
+                    composable(Routes.Home.route) {
+                        HomeScreen(
+                            navController,
+                            homeViewModelFactory
+                        )
+                    }
+                    composable(Routes.Search.route) {
+                        SearchScreen(
+                            navController,
+                            homeViewModelFactory
+                        )
+                    }
+                    composable(Routes.Library.route) { LibraryScreen(navController = navController) }
                     composable(Routes.Settings.route) { SettingsScreen() }
                     composable(Routes.Notifications.route) { NotificationsScreen() }
                     composable(Routes.SongFullScreen.route) { SongFullScreen() }

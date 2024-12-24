@@ -1,5 +1,6 @@
 package com.vk.chillify.presentation.templates.navigation
 
+import android.media.MediaPlayer
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
@@ -11,24 +12,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.vk.chillify.R
 import com.vk.chillify.presentation.templates.MusicPlayerBar
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {
     Column {
 
-        MusicPlayerBar(onClick = {
-            navController.navigate(Routes.SongFullScreen.route){
-                popUpTo(navController.graph.findStartDestination().id) {
-                    saveState = true
+        MusicPlayerBar(
+            onClick = {
+                navController.navigate(Routes.SongFullScreen.route) {
+                    popUpTo(navController.graph.findStartDestination().id) {
+                        saveState = true
+                    }
                 }
-            }
-        })
+            },
+            mMediaPlayer = MediaPlayer.create(LocalContext.current, R.raw.govnovoz)
+        )
 
 
         BottomNavigation {

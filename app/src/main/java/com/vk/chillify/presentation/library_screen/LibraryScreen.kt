@@ -18,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -26,25 +25,27 @@ import com.vk.chillify.R
 import com.vk.chillify.presentation.templates.Header
 
 @Composable
-fun LibraryScreen(navController: NavController, modifier: Modifier = Modifier) {
+fun LibraryScreen(modifier: Modifier = Modifier, navController: NavController) {
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color(0xFF121111))
+            .background(Color(0xFF121111)),
     ) {
+        Header(navController)
+
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(15.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .weight(1f)
-                .padding(horizontal = 10.dp)
+                .padding(horizontal = 16.dp, vertical = 6.dp)
         ) {
-            for (i in 0..10) {
-                item {
+            for (i in 0..10){
+                item{
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(6.dp)
-                    ) {
+                    ){
                         Image(
                             painter = painterResource(R.drawable.chill_headphones_guy),
                             contentDescription = null,
@@ -53,7 +54,7 @@ fun LibraryScreen(navController: NavController, modifier: Modifier = Modifier) {
                                 .clip(RoundedCornerShape(4.dp))
                                 .padding(bottom = 5.dp)
                         )
-                        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                        Column(verticalArrangement = Arrangement.spacedBy(4.dp)){
                             Text(
                                 text = "Cool playlist", color = Color.White, fontSize = 18.sp
                             )
@@ -63,16 +64,6 @@ fun LibraryScreen(navController: NavController, modifier: Modifier = Modifier) {
 
                         }
                     }
-                }
-                item { Header(navController) }
-                item {
-                    Text(
-                        text = "You're fucking library here",
-                        color = Color.White,
-                        fontSize = 19.sp,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.weight(1f)
-                    )
                 }
             }
         }
