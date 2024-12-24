@@ -20,18 +20,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.vk.chillify.R
 import com.vk.chillify.presentation.templates.Header
 
 //@Preview(showSystemUi = true)
 @Composable
-fun LibraryScreen(modifier: Modifier = Modifier) {
+fun LibraryScreen(modifier: Modifier = Modifier, navController: NavController) {
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(Color(0xFF121111)),
     ) {
-        Header()
+        Header(navController)
 
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(15.dp),
