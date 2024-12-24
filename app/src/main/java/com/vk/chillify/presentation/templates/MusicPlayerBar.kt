@@ -34,11 +34,11 @@ import com.vk.chillify.presentation.viewModels.MusicViewModel
 
 @Composable
 fun MusicPlayerBar(
-    songTitle: String = "Song Title",
-    artist: String = "Artist Name",
+    songTitle: String = " Cool Song",
+    artist: String = "Cool Artist",
     favourite: Boolean = false,
     onClick: () -> Unit = {},
-    viewModel: MusicViewModel = viewModel()
+    viewModel: MusicViewModel = viewModel(),
 ) {
 
     val isPlaying by viewModel.isPlaying.collectAsState()

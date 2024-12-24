@@ -36,14 +36,11 @@ fun BottomNavigationBar(navController: NavController, musicViewModel: MusicViewM
                         popUpTo(navController.graph.findStartDestination().id) {
                             saveState = true
                         }
-
                     }
                 },
-                viewModel = musicViewModel
+                viewModel = musicViewModel,
             )
         }
-
-
 
         BottomNavigation {
 
