@@ -19,4 +19,5 @@ sealed class Routes(val route: String) {
     data object Library : Routes("Library")
     data object Settings : Routes("Settings")
     data object Notifications : Routes("Notifications")
+    data object SongFullScreen : Routes("SongFullScreen")
 }
