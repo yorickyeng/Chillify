@@ -2,7 +2,7 @@ package com.vk.chillify.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class PopularArtistsResponse(
+data class PopularAlbumsResponse(
     @SerializedName("albums")
     val albums: Albums
 )

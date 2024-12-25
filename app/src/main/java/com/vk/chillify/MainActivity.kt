@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.vk.chillify.presentation.home_screen.HomeScreen
 import com.vk.chillify.presentation.home_screen.HomeViewModelFactory
+import com.vk.chillify.presentation.information_screen.InformationScreen
 import com.vk.chillify.presentation.library_screen.LibraryScreen
 import com.vk.chillify.presentation.notifications_screen.NotificationsScreen
 import com.vk.chillify.presentation.search_screen.SearchScreen
@@ -31,12 +32,17 @@ class MainActivity : ComponentActivity() {
         (applicationContext as MyApp).appComponent.inject(this)
 
         super.onCreate(savedInstanceState)
-        val  musicViewModel = MusicViewModel(application = application)
+        val musicViewModel = MusicViewModel(application = application)
 
         setContent {
             val navController = rememberNavController()
 
-            Scaffold(bottomBar = { BottomNavigationBar(navController, musicViewModel) }) { innerPadding ->
+            Scaffold(bottomBar = {
+                BottomNavigationBar(
+                    navController,
+                    musicViewModel
+                )
+            }) { innerPadding ->
                 NavHost(
                     navController,
                     startDestination = "Home",
@@ -60,6 +66,11 @@ class MainActivity : ComponentActivity() {
                     composable(Routes.Settings.route) { SettingsScreen() }
                     composable(Routes.Notifications.route) { NotificationsScreen() }
                     composable(Routes.SongFullScreen.route) { SongFullScreen(musicViewModel) }
+                    composable(Routes.Information.route) {
+                        InformationScreen(
+                            homeViewModelFactory
+                        )
+                    }
                 }
             }
         }

@@ -20,7 +20,10 @@ data class ArtistResponse(
     val genres: List<String>,
 
     @SerializedName("images")
-    val images: List<Image>?
+    val images: List<Image>?,
+
+    @SerializedName("external_urls")
+    val externalUrls: ExternalUrl,
 )
 
 data class Image(
@@ -33,4 +36,10 @@ data class Image(
 
     @SerializedName("width")
     val width: Int?
+)
+
+data class ExternalUrl(
+
+    @SerializedName("spotify")
+    val spotify: String,
 )
