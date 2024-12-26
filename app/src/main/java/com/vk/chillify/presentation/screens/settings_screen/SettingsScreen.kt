@@ -1,4 +1,4 @@
-package com.vk.chillify.presentation.settings_screen
+package com.vk.chillify.presentation.screens.settings_screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

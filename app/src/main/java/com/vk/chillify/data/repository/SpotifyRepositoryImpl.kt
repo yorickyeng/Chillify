@@ -28,11 +28,10 @@ class SpotifyRepositoryImpl @Inject constructor(
     }
 
     override suspend fun fetchArtists(authToken: String): List<Artist> {
-        val randomArtistIds = artistIds.take(artistIds.size).joinToString(",")
+        val randomArtistIds = artistIds.take(artistIds.size).shuffled().joinToString(",")
         println(authToken)
         return try {
             val response = spotifyApiService.getArtists("Bearer $authToken", randomArtistIds)
-            println(response.artists[0].externalUrls.spotify)
             response.artists.map { artistResponse ->
                 Artist(
                     artistName = artistResponse.name,
@@ -72,12 +71,13 @@ class SpotifyRepositoryImpl @Inject constructor(
             val response = spotifyApiService.getPopularAlbums("Bearer $authToken")
             response.albums.items.map { albumItem ->
                 Album(
-                    albumName = albumItem.albumName, // Название альбома
-                    albumImageUrl = albumItem.images.firstOrNull()?.url.orEmpty(), // Обложка альбома
+                    albumName = albumItem.albumName,
+                    albumImageUrl = albumItem.images.firstOrNull()?.url.orEmpty(),
+                    albumUrl = albumItem.externalUrls.spotify,
                     artist = albumItem.artists.firstOrNull()?.let { artistResponse ->
                         Artist(
-                            artistName = artistResponse.name, // Имя артиста
-                            artistImageUrl = artistResponse.images?.firstOrNull()?.url.orEmpty(),
+                            artistName = artistResponse.name,
+                            artistImageUrl = artistResponse.images?.get(0)?.url.orEmpty(),
                             artistUrl = artistResponse.externalUrls.spotify
                         )
                     } ?: Artist(artistName = "Unknown Artist", artistImageUrl = "", artistUrl = "")

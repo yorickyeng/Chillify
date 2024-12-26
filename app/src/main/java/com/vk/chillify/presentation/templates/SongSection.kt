@@ -57,20 +57,20 @@ fun HorizontalFramesRow(navController: NavController, albumsOrArtists: List<Any>
                     SongCover(
                         navController = navController,
                         artistName = albumOrArtist.artistName,
-                        artistImageUrl = albumOrArtist.artistImageUrl,
+                        imageUrl = albumOrArtist.artistImageUrl,
                         albumName = "",
+                        albumOrArtistUrl = albumOrArtist.artistUrl
                     )
                 }
-
                 is Album -> {
                     SongCover(
                         navController = navController,
                         artistName = albumOrArtist.artist.artistName,
-                        artistImageUrl = albumOrArtist.albumImageUrl,
+                        imageUrl = albumOrArtist.albumImageUrl,
                         albumName = albumOrArtist.albumName,
+                        albumOrArtistUrl = albumOrArtist.albumUrl
                     )
                 }
-
                 else -> {
                     println("why")
                 }

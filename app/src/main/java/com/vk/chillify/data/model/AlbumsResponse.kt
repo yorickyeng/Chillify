@@ -2,7 +2,7 @@ package com.vk.chillify.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class PopularAlbumsResponse(
+data class AlbumsResponse(
     @SerializedName("albums")
     val albums: Albums
 )
@@ -20,5 +20,8 @@ data class AlbumItem(
     val albumName: String,
 
     @SerializedName("images")
-    val images: List<Image>
+    val images: List<Image>,
+
+    @SerializedName("external_urls")
+    val externalUrls: ExternalUrl
 )
