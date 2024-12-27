@@ -25,20 +25,31 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.vk.chillify.R
+import com.vk.chillify.data.repository.Constants
+import com.vk.chillify.presentation.StringFormatter.formatString
 import com.vk.chillify.presentation.viewModels.MusicViewModel
 
 //@Preview(showSystemUi = true)
 @Composable
-fun SongFullScreen(viewModel: MusicViewModel = viewModel()) {
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .background(Color(0xFF121111)))
+fun SongFullScreen(
+    viewModel: MusicViewModel = viewModel(),
+    authorName: String = "Author name",
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFF121111))
+    )
     {
         val isPlaying by viewModel.isPlaying.collectAsState()
+        val songNameUnformatted by viewModel.songName.collectAsState()
+
+        val songName = formatString(songNameUnformatted)
 
         Image(
             painter = painterResource(R.drawable.chill_headphones_guy),
@@ -49,17 +60,18 @@ fun SongFullScreen(viewModel: MusicViewModel = viewModel()) {
                 .padding(horizontal = 40.dp, vertical = 60.dp)
         )
 
-        Track()     // TODO : Заглушка, добавить рабочую бизнес-логику
+        Track(songName, authorName, viewModel)
 
-        Row(modifier = Modifier
-            .wrapContentHeight()
-            .fillMaxWidth(),
+        Row(
+            modifier = Modifier
+                .wrapContentHeight()
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
 
 
-        )
+            )
         {
-            IconButton(onClick = { }) {
+            IconButton(onClick = { viewModel.previousTrack() }) {
 
                 Icon(
                     painter = painterResource(R.drawable.previous),
@@ -71,13 +83,15 @@ fun SongFullScreen(viewModel: MusicViewModel = viewModel()) {
             IconButton(onClick = { viewModel.playPause() }) {
 
                 Icon(
-                    painter = if(!isPlaying) painterResource(R.drawable.play) else painterResource(R.drawable.pause),
+                    painter = if (!isPlaying) painterResource(R.drawable.play) else painterResource(
+                        R.drawable.pause
+                    ),
                     contentDescription = "Play",
                     tint = Color.White,
                     modifier = Modifier.size(70.dp)
                 )
             }
-            IconButton(onClick = { }) {
+            IconButton(onClick = { viewModel.nextTrack() }) {
 
                 Icon(
                     painter = painterResource(R.drawable.next),
@@ -88,16 +102,19 @@ fun SongFullScreen(viewModel: MusicViewModel = viewModel()) {
             }
         }
 
+
     }
 }
 
+
 @Composable
-fun Track(){
+fun Track(songName: String, authorName: String, viewModel: MusicViewModel = viewModel()) {
+    val context = LocalContext.current
     Box(
-       modifier = Modifier
-           .wrapContentHeight()
-           .fillMaxWidth()
-           .background(Color(0xFF121111))
+        modifier = Modifier
+            .wrapContentHeight()
+            .fillMaxWidth()
+            .background(Color(0xFF121111))
     ) {
         Row(
             modifier = Modifier
@@ -113,16 +130,25 @@ fun Track(){
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Song Title",
+                    text = songName,
                     color = Color.White,
                     style = MaterialTheme.typography.bodyLarge
                 )
                 Text(
-                    text = "Artist Name",
+                    text = authorName,
                     color = Color.Gray,
                     style = MaterialTheme.typography.bodySmall
                 )
             }
+            IconButton(onClick = {viewModel.shareLink(Constants.RICKROLL,context) }) {
+                Icon(
+                    painter = painterResource(R.drawable.share),
+                    contentDescription = "share",
+                    tint = Color.White,
+                    modifier = Modifier.size(70.dp)
+                )
+            }
+
             IconButton({ }) {
                 Icon(
                     imageVector = Icons.Default.FavoriteBorder,
@@ -133,5 +159,6 @@ fun Track(){
 
         }
     }
-
 }
+
+
