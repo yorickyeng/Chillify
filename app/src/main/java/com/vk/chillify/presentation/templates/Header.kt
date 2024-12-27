@@ -22,7 +22,6 @@ import com.vk.chillify.presentation.templates.navigation.Routes
 
 @Composable
 fun Header(navController: NavController) {
-
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier

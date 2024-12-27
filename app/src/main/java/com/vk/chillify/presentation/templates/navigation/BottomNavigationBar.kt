@@ -43,7 +43,6 @@ fun BottomNavigationBar(navController: NavController, musicViewModel: MusicViewM
 
         BottomNavigation {
 
-
             topLevelRoutes.forEach { topLevelRoute ->
                 BottomNavigationItem(
                     modifier = Modifier.background(Color.Black),

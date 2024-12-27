@@ -15,10 +15,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.vk.chillify.domain.entity.Album
+import com.vk.chillify.domain.entity.Artist
 
 @Composable
-fun SongsSection(title: String, albumsOrArtists: List<Any>) {
+fun SongsSection(navController: NavController, title: String, albumsOrArtists: List<Any>) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -37,12 +39,12 @@ fun SongsSection(title: String, albumsOrArtists: List<Any>) {
                 modifier = Modifier.weight(1f)
             )
         }
-        HorizontalFramesRow(albumsOrArtists = albumsOrArtists)
+        HorizontalFramesRow(navController = navController, albumsOrArtists = albumsOrArtists)
     }
 }
 
 @Composable
-fun HorizontalFramesRow(albumsOrArtists: List<Any>) {
+fun HorizontalFramesRow(navController: NavController, albumsOrArtists: List<Any>) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(13.dp),
         modifier = Modifier
@@ -51,14 +53,22 @@ fun HorizontalFramesRow(albumsOrArtists: List<Any>) {
     ) {
         items(albumsOrArtists) { albumOrArtist ->
             when (albumOrArtist) {
-                is Pair<*, *> -> {
-                    SongCover(artistName = albumOrArtist.first as String, url = albumOrArtist.second as String)
+                is Artist -> {
+                    SongCover(
+                        navController = navController,
+                        artistName = albumOrArtist.artistName,
+                        imageUrl = albumOrArtist.artistImageUrl,
+                        albumName = "",
+                        albumOrArtistUrl = albumOrArtist.artistUrl
+                    )
                 }
                 is Album -> {
                     SongCover(
+                        navController = navController,
                         artistName = albumOrArtist.artist.artistName,
-                        url = albumOrArtist.albumImageUrl,
-                        albumName = albumOrArtist.albumName
+                        imageUrl = albumOrArtist.albumImageUrl,
+                        albumName = albumOrArtist.albumName,
+                        albumOrArtistUrl = albumOrArtist.albumUrl
                     )
                 }
                 else -> {

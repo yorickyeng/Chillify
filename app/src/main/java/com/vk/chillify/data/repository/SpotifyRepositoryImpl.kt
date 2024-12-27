@@ -28,32 +28,35 @@ class SpotifyRepositoryImpl @Inject constructor(
     }
 
     override suspend fun fetchArtists(authToken: String): List<Artist> {
-        val randomArtistIds = artistIds.shuffled().take(artistIds.size).joinToString(",")
+        val randomArtistIds = artistIds.take(artistIds.size).shuffled().joinToString(",")
+        println(authToken)
         return try {
-            val response = spotifyApiService.getArtist("Bearer $authToken", randomArtistIds)
+            val response = spotifyApiService.getArtists("Bearer $authToken", randomArtistIds)
             response.artists.map { artistResponse ->
                 Artist(
                     artistName = artistResponse.name,
-                    artistImageUrl = artistResponse.images?.get(0)?.url.orEmpty()
+                    artistImageUrl = artistResponse.images?.get(0)?.url.orEmpty(),
+                    artistUrl = artistResponse.externalUrls.spotify
                 )
             }
-
         } catch (e: Exception) {
             e.printStackTrace()
             emptyList()
         }
     }
 
+    // not using now
     override suspend fun fetchPopularArtists(authToken: String): List<Artist> {
         return try {
-            val response = spotifyApiService.getPopularArtists("Bearer $authToken")
+            val response = spotifyApiService.getPopularAlbums("Bearer $authToken")
             println(authToken)
             println(response)
             response.albums.items.flatMap { albumItem ->
                 albumItem.artists.map {
                     Artist(
                         artistName = albumItem.albumName,
-                        artistImageUrl = albumItem.images.firstOrNull()?.url.orEmpty() // Извлекаем обложку альбома
+                        artistImageUrl = albumItem.images.firstOrNull()?.url.orEmpty(),
+                        artistUrl = albumItem.albumName, // заглушка
                     )
                 }
             }
@@ -65,17 +68,19 @@ class SpotifyRepositoryImpl @Inject constructor(
 
     override suspend fun fetchPopularAlbum(authToken: String): List<Album> {
         return try {
-            val response = spotifyApiService.getPopularArtists("Bearer $authToken")
+            val response = spotifyApiService.getPopularAlbums("Bearer $authToken")
             response.albums.items.map { albumItem ->
                 Album(
-                    albumName = albumItem.albumName, // Название альбома
-                    albumImageUrl = albumItem.images.firstOrNull()?.url.orEmpty(), // Обложка альбома
+                    albumName = albumItem.albumName,
+                    albumImageUrl = albumItem.images.firstOrNull()?.url.orEmpty(),
+                    albumUrl = albumItem.externalUrls.spotify,
                     artist = albumItem.artists.firstOrNull()?.let { artistResponse ->
                         Artist(
-                            artistName = artistResponse.name, // Имя артиста
-                            artistImageUrl = artistResponse.images?.firstOrNull()?.url.orEmpty() // Изображение артиста (если доступно)
+                            artistName = artistResponse.name,
+                            artistImageUrl = artistResponse.images?.get(0)?.url.orEmpty(),
+                            artistUrl = artistResponse.externalUrls.spotify
                         )
-                    } ?: Artist(artistName = "Unknown Artist", artistImageUrl = "")
+                    } ?: Artist(artistName = "Unknown Artist", artistImageUrl = "", artistUrl = "")
                 )
             }
         } catch (e: Exception) {

@@ -1,8 +1,10 @@
 package com.vk.chillify.presentation.templates
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -18,14 +20,24 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.skydoves.landscapist.glide.GlideImage
 import com.vk.chillify.R
+import com.vk.chillify.presentation.templates.navigation.Routes
 
 @Composable
-fun SongCover(artistName: String, url: String, albumName: String = "") {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+fun SongCover(
+    navController: NavController,
+    artistName: String,
+    imageUrl: String,
+    albumName: String = "",
+    albumOrArtistUrl: String
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         GlideImage(
-            imageModel = { url },
+            imageModel = { imageUrl },
             loading = {
                 Box(
                     modifier = Modifier
@@ -38,8 +50,19 @@ fun SongCover(artistName: String, url: String, albumName: String = "") {
             },
             modifier = Modifier
                 .size(154.dp)
+                .aspectRatio(1f)
                 .clip(RoundedCornerShape(4.dp))
-                .padding(bottom = 5.dp),
+                .padding(bottom = 5.dp)
+                .clickable(onClick = {
+                    navController.navigate(
+                        Routes.Information.createRoute(
+                            imageUrl = imageUrl,
+                            artistName = artistName,
+                            albumName = albumName,
+                            albumOrArtistUrl = albumOrArtistUrl
+                        )
+                    )
+                }),
             failure = {
                 Box {
                     Image(
