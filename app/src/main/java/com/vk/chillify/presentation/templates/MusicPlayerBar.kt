@@ -88,7 +88,7 @@ fun MusicPlayerBar(
             // Favourite Button
             IconButton(onClick = { }) {
                 Icon(
-                    imageVector = if(!favourite) Icons.Default.FavoriteBorder else Icons.Default.Favorite,
+                    imageVector = if (!favourite) Icons.Default.FavoriteBorder else Icons.Default.Favorite,
                     contentDescription = "favourite",
                     tint = Color.White
                 )
@@ -97,7 +97,9 @@ fun MusicPlayerBar(
             // Play/Pause Button
             IconButton(onClick = { viewModel.playPause() }) {
                 Icon(
-                    painter = if (!isPlaying) painterResource(R.drawable.play) else painterResource(R.drawable.pause),
+                    painter = if (!isPlaying) painterResource(R.drawable.play) else painterResource(
+                        R.drawable.pause
+                    ),
                     contentDescription = if (isPlaying) "Pause" else "Play",
                     tint = Color.White
                 )
