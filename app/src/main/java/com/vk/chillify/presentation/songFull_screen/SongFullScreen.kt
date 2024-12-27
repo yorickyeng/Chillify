@@ -1,8 +1,5 @@
 package com.vk.chillify.presentation.songFull_screen
 
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -31,17 +28,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.core.content.FileProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.vk.chillify.R
+import com.vk.chillify.data.repository.Constants
+import com.vk.chillify.presentation.StringFormatter.formatString
 import com.vk.chillify.presentation.viewModels.MusicViewModel
-import java.io.File
 
 //@Preview(showSystemUi = true)
 @Composable
 fun SongFullScreen(
     viewModel: MusicViewModel = viewModel(),
-    songName: String = "Song name",
     authorName: String = "Author name",
 ) {
     Column(
@@ -51,7 +47,10 @@ fun SongFullScreen(
     )
     {
         val isPlaying by viewModel.isPlaying.collectAsState()
-        val context = LocalContext.current
+        val songNameUnformatted by viewModel.songName.collectAsState()
+
+        val songName = formatString(songNameUnformatted)
+
         Image(
             painter = painterResource(R.drawable.chill_headphones_guy),
             contentDescription = null,
@@ -61,7 +60,7 @@ fun SongFullScreen(
                 .padding(horizontal = 40.dp, vertical = 60.dp)
         )
 
-        Track(songName, authorName)
+        Track(songName, authorName, viewModel)
 
         Row(
             modifier = Modifier
@@ -72,7 +71,7 @@ fun SongFullScreen(
 
             )
         {
-            IconButton(onClick = { }) {
+            IconButton(onClick = { viewModel.previousTrack() }) {
 
                 Icon(
                     painter = painterResource(R.drawable.previous),
@@ -92,7 +91,7 @@ fun SongFullScreen(
                     modifier = Modifier.size(70.dp)
                 )
             }
-            IconButton(onClick = { }) {
+            IconButton(onClick = { viewModel.nextTrack() }) {
 
                 Icon(
                     painter = painterResource(R.drawable.next),
@@ -102,74 +101,15 @@ fun SongFullScreen(
                 )
             }
         }
-        IconButton(onClick = { shareName(songName, context) }) {
-            Icon(
-                painter = painterResource(R.drawable.share),
-                contentDescription = "share",
-                tint = Color.White,
-                modifier = Modifier.size(70.dp)
-            )
-        }
 
-//        IconButton(onClick = { shareSong(context) }) {
-//            Icon(
-//                painter = painterResource(R.drawable.share),
-//                contentDescription = "share",
-//                tint = Color.White,
-//                modifier = Modifier.size(70.dp)
-//            )
-//        }
 
     }
 }
 
-
-fun shareName(track: String, context: Context) {
-    val sendIntent: Intent = Intent().apply {
-        action = Intent.ACTION_SEND
-        putExtra(Intent.EXTRA_TEXT, track)
-        type = "text/plain"
-    }
-
-    val shareIntent = Intent.createChooser(sendIntent, "Share Song Name!")
-    context.startActivity(shareIntent)
-}
-
-fun shareSong(context: Context){
-    val uri = Uri.parse("android.resource://${context.packageName}/raw/track1")
-
-    val shareIntent: Intent = Intent().apply {
-        action = Intent.ACTION_SEND
-
-        putExtra(Intent.EXTRA_STREAM, uri)
-        type = "audio/mp3"
-    }
-
-    context.startActivity(Intent.createChooser(shareIntent, "Share Song mp3"))
-}
-
-fun shareSong1(context: Context){
-    val fileName = "track1.mp3"
-    val cacheFile = File(context.cacheDir, fileName)
-
-    val uri: Uri = FileProvider.getUriForFile(
-        context,
-        "${context.packageName}.fileprovider",
-        cacheFile
-    )
-
-    val shareIntent: Intent = Intent().apply {
-        action = Intent.ACTION_SEND
-
-        putExtra(Intent.EXTRA_STREAM, uri)
-        type = "audio/*"
-    }
-
-    context.startActivity(Intent.createChooser(shareIntent, "Share Song mp3"))
-}
 
 @Composable
-fun Track(songName: String, authorName: String) {
+fun Track(songName: String, authorName: String, viewModel: MusicViewModel = viewModel()) {
+    val context = LocalContext.current
     Box(
         modifier = Modifier
             .wrapContentHeight()
@@ -200,6 +140,15 @@ fun Track(songName: String, authorName: String) {
                     style = MaterialTheme.typography.bodySmall
                 )
             }
+            IconButton(onClick = {viewModel.shareLink(Constants.RICKROLL,context) }) {
+                Icon(
+                    painter = painterResource(R.drawable.share),
+                    contentDescription = "share",
+                    tint = Color.White,
+                    modifier = Modifier.size(70.dp)
+                )
+            }
+
             IconButton({ }) {
                 Icon(
                     imageVector = Icons.Default.FavoriteBorder,
@@ -210,5 +159,6 @@ fun Track(songName: String, authorName: String) {
 
         }
     }
-
 }
+
+

@@ -59,7 +59,7 @@ class MainActivity : ComponentActivity() {
                     composable(Routes.Library.route) { LibraryScreen(navController = navController) }
                     composable(Routes.Settings.route) { SettingsScreen() }
                     composable(Routes.Notifications.route) { NotificationsScreen() }
-                    composable(Routes.SongFullScreen.route) { SongFullScreen(musicViewModel, "Cool Song", "Cool Author") }
+                    composable(Routes.SongFullScreen.route) { SongFullScreen(musicViewModel,"Cool Author") }
                 }
             }
         }

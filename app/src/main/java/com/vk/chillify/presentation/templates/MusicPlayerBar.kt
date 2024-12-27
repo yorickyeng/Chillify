@@ -30,11 +30,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.vk.chillify.R
+import com.vk.chillify.presentation.StringFormatter.formatString
 import com.vk.chillify.presentation.viewModels.MusicViewModel
 
 @Composable
 fun MusicPlayerBar(
-    songTitle: String = " Cool Song",
     artist: String = "Cool Artist",
     favourite: Boolean = false,
     onClick: () -> Unit = {},
@@ -42,6 +42,8 @@ fun MusicPlayerBar(
 ) {
 
     val isPlaying by viewModel.isPlaying.collectAsState()
+    val songNameUnformatted by viewModel.songName.collectAsState()
+    val songName = formatString(songNameUnformatted)
 
     Box(
         modifier = Modifier
@@ -72,7 +74,7 @@ fun MusicPlayerBar(
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = songTitle,
+                    text = songName,
                     color = Color.White,
                     style = MaterialTheme.typography.bodyLarge
                 )
