@@ -1,4 +1,4 @@
-package com.vk.chillify.presentation.home_screen
+package com.vk.chillify.presentation.screens.home_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

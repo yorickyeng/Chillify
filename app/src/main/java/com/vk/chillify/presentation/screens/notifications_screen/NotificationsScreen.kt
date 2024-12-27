@@ -1,4 +1,4 @@
-package com.vk.chillify.presentation.notifications_screen
+package com.vk.chillify.presentation.screens.notifications_screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

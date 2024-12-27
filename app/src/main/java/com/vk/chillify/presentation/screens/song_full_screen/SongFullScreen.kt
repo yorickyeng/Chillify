@@ -1,4 +1,4 @@
-package com.vk.chillify.presentation.songFull_screen
+package com.vk.chillify.presentation.screens.song_full_screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

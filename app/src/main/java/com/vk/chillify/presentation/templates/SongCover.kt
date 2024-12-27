@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -28,11 +29,15 @@ import com.vk.chillify.presentation.templates.navigation.Routes
 fun SongCover(
     navController: NavController,
     artistName: String,
-    artistImageUrl: String,
-    albumName: String = ""
+    imageUrl: String,
+    albumName: String = "",
+    albumOrArtistUrl: String
 ) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        GlideImage(imageModel = { artistImageUrl },
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        GlideImage(
+            imageModel = { imageUrl },
             loading = {
                 Box(
                     modifier = Modifier
@@ -45,10 +50,18 @@ fun SongCover(
             },
             modifier = Modifier
                 .size(154.dp)
+                .aspectRatio(1f)
                 .clip(RoundedCornerShape(4.dp))
                 .padding(bottom = 5.dp)
                 .clickable(onClick = {
-                    navController.navigate(Routes.Information.route)
+                    navController.navigate(
+                        Routes.Information.createRoute(
+                            imageUrl = imageUrl,
+                            artistName = artistName,
+                            albumName = albumName,
+                            albumOrArtistUrl = albumOrArtistUrl
+                        )
+                    )
                 }),
             failure = {
                 Box {
