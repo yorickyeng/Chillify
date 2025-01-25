@@ -95,12 +95,12 @@ fun MusicPlayerBar(
             }
 
             // Play/Pause Button
-            IconButton(onClick = { viewModel.playPause() }) {
-                Icon(
-                    painter = if (!isPlaying) painterResource(R.drawable.play) else painterResource(R.drawable.pause),
-                    contentDescription = if (isPlaying) "Pause" else "Play",
-                    tint = Color.White
-                )
+                IconButton(onClick = { viewModel.playPause() }) {
+                    Icon(
+                        painter = if (!isPlaying) painterResource(R.drawable.play) else painterResource(R.drawable.pause),
+                        contentDescription = if (isPlaying) "Pause" else "Play",
+                        tint = Color.White
+                    )
             }
         }
     }
