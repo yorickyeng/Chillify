@@ -19,16 +19,19 @@ class MusicViewModel(application: Application) : AndroidViewModel(application) {
     init {
         audio.shuffle()
     }
+
     private var _currentTrack = MutableStateFlow(0)
-    private var _songName = MutableStateFlow( context.resources.getResourceName(audio[_currentTrack.value]))
-    val songName : StateFlow<String> = _songName
+    private var _songName =
+        MutableStateFlow(context.resources.getResourceName(audio[_currentTrack.value]))
+    val songName: StateFlow<String> = _songName
 
     private val mMediaPlayer = MediaPlayer().apply {
 //        setDataSource(context.resources.openRawResourceFd(audio[_currentTrack.value])) // Устанавливаем URL в качестве источника
         setDataSource(url)
         prepareAsync() // Асинхронная подготовка
         setOnPreparedListener {
-            start() // Начинаем воспроизведение, когда файл готов
+
+            pause() // Начинаем воспроизведение, когда файл готов
         }
     }
 
@@ -44,14 +47,14 @@ class MusicViewModel(application: Application) : AndroidViewModel(application) {
         play()
     }
 
-    fun previousTrack(){
+    fun previousTrack() {
         _currentTrack.value -= 1
-        if (_currentTrack.value == -1) _currentTrack.value = audio.size-1
+        if (_currentTrack.value == -1) _currentTrack.value = audio.size - 1
         play()
 
     }
 
-    private fun play(){
+    private fun play() {
         mMediaPlayer.apply {
             stop()
             reset()
