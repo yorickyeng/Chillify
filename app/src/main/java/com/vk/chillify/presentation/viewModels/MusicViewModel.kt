@@ -13,23 +13,27 @@ class MusicViewModel(application: Application) : AndroidViewModel(application) {
 
     private val context = application
     private val audio = AudioRepository.audio
+//    private val url = "https://getfile.dokpub.com/yandex/get/https://disk.yandex.ru/d/G9hq4_0IiACVgg"
+
 
     init {
         audio.shuffle()
     }
-
     private var _currentTrack = MutableStateFlow(0)
-    private var _songName =
-        MutableStateFlow(context.resources.getResourceName(audio[_currentTrack.value]))
-    val songName: StateFlow<String> = _songName
+    private var _songName = MutableStateFlow( context.resources.getResourceName(audio[_currentTrack.value]))
+    val songName : StateFlow<String> = _songName
 
     private val mMediaPlayer = MediaPlayer().apply {
-        setDataSource(context.resources.openRawResourceFd(audio[_currentTrack.value])) // Устанавливаем URL в качестве источника
+        setDataSource(context.resources.openRawResourceFd(audio[_currentTrack.value]))
+//        setDataSource(url)
         prepareAsync() // Асинхронная подготовка
         setOnPreparedListener {
-            pause() // Начинаем воспроизведение, когда файл готов
+            start()
+            playPause()
         }
     }
+
+
 
     private var _isPlaying = MutableStateFlow(mMediaPlayer.isPlaying)
     val isPlaying: StateFlow<Boolean> = _isPlaying
@@ -41,18 +45,19 @@ class MusicViewModel(application: Application) : AndroidViewModel(application) {
         play()
     }
 
-    fun previousTrack() {
+    fun previousTrack(){
         _currentTrack.value -= 1
-        if (_currentTrack.value == -1) _currentTrack.value = audio.size - 1
+        if (_currentTrack.value == -1) _currentTrack.value = audio.size-1
         play()
 
     }
 
-    private fun play() {
+    private fun play(){
         mMediaPlayer.apply {
             stop()
             reset()
             setDataSource(context.resources.openRawResourceFd(audio[_currentTrack.value]))
+//            setDataSource(url)
             prepareAsync()
             setOnPreparedListener {
                 playPause() // Начинаем воспроизведение, когда файл готов
